@@ -201,6 +201,18 @@ def real_time_inference(sensor_data):
 
 ## Results and Performance
 
+### Model Performance Visualization
+
+![RUL Prediction Analysis](production_rul_analysis.png)
+
+*Comprehensive analysis of the RUL prediction model showing:*
+- **Top Left**: Predictions vs True RUL values with uncertainty quantification
+- **Top Center**: RUL predictions over time with confidence intervals
+- **Top Right**: Error distribution histogram
+- **Bottom Left**: Uncertainty vs Absolute Error correlation
+- **Bottom Right**: Residuals vs Predicted values
+- **Performance Metrics**: RMSE: 22.91, MAE: 16.23, R²: 0.696, Reliability Score: 69.7%
+
 ### Base Version:
 - Typical RMSE: ~20-25 cycles
 - Simple and interpretable architecture
