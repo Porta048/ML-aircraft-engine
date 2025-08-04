@@ -1,0 +1,137 @@
+# Advanced RUL Prediction System - Git Ignore
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+env/
+ENV/
+rul_env/
+.venv/
+
+# Jupyter Notebooks
+.ipynb_checkpoints
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Model files (large)
+*.h5
+*.pkl
+*.joblib
+*.ckpt
+*.pb
+*.tflite
+*.onnx
+
+# Logs
+*.log
+logs/
+*.out
+
+# Data files (if sensitive)
+*.csv
+*.json
+*.parquet
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+temp/
+tmp/
+
+# Performance profiling
+*.prof
+*.profile
+
+# Monitoring and metrics
+metrics/
+monitoring/
+prometheus/
+
+# Docker
+.dockerignore
+Dockerfile
+docker-compose.yml
+
+# Kubernetes
+k8s/
+*.yaml
+*.yml
+
+# Environment variables
+.env
+.env.local
+.env.production
+
+# Cache
+.cache/
+.pytest_cache/
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+*.cover
+
+# Model artifacts that should be versioned separately
+models/
+saved_models/
+checkpoints/
+artifacts/
+
+# Large datasets (use Git LFS or external storage)
+data/
+datasets/
+*.zip
+*.tar.gz
+*.rar
+
+# Visualization outputs
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.svg
+plots/
+figures/
+
+# Keep important files
+!requirements.txt
+!README.md
+!*.md
+!CMaps/readme.txt
