@@ -838,14 +838,14 @@ class OptimizedRULPredictor:
         logger.info("Saving optimized models and preprocessing objects...")
         
         # Save ensemble models in parallel
-        def save_single_model(model_idx):
-            model = self.models['ensemble'][model_idx]
+        def save_single_model(model_info):
+            model_idx, (model_key, model) = model_info
             model.save(f"{model_name}_ensemble_{model_idx}.h5")
-            return f"Model {model_idx} saved"
+            return f"Model {model_key} saved"
         
         with ThreadPoolExecutor(max_workers=3) as executor:
-            futures = [executor.submit(save_single_model, i) 
-                      for i in range(len(self.models['ensemble']))]
+            futures = [executor.submit(save_single_model, (i, item)) 
+                      for i, item in enumerate(self.models['base_models'].items())]
             
             for future in as_completed(futures):
                 logger.info(future.result())
@@ -858,7 +858,8 @@ class OptimizedRULPredictor:
             'max_features': self.max_features,
             'selected_features': self.selected_features,
             'config': self.config,
-            'model_count': len(self.models['ensemble']),
+            'model_count': len(self.models['base_models']),
+            'model_names': list(self.models['base_models'].keys()),
             'created_at': datetime.now().isoformat()
         }
         
@@ -893,18 +894,23 @@ class OptimizedRULPredictor:
         def load_single_model(model_idx):
             return keras.models.load_model(f"{model_name}_ensemble_{model_idx}.h5")
         
-        ensemble_models = []
+        base_models = {}
         with ThreadPoolExecutor(max_workers=3) as executor:
             futures = [executor.submit(load_single_model, i) 
                       for i in range(metadata['model_count'])]
             
+            loaded_models = []
             for future in as_completed(futures):
-                ensemble_models.append(future.result())
+                loaded_models.append(future.result())
         
-        self.models['ensemble'] = ensemble_models
+        # Reconstruct the dictionary with proper model names
+        for i, model_name_key in enumerate(metadata['model_names']):
+            base_models[model_name_key] = loaded_models[i]
+        
+        self.models['base_models'] = base_models
         
         logger.info(f"Models loaded in {time.time() - start_time:.2f}s")
-        logger.info(f"Loaded {len(ensemble_models)} ensemble models")
+        logger.info(f"Loaded {len(base_models)} ensemble models")
     
     @lru_cache(maxsize=128)
     def preprocess_single_prediction_cached(self, sensor_data_tuple):
